@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лабораторная работа номер 1 </title>
+  
+  <style>
+        *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: #6a6664;
+      background-color: #b3abab;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    header {
+      font-family: fantasy;
+      color: #625b5b;
+      font-size: 18px;
+      padding: 10px;
+      background-color: #fafafa;
+      border-bottom: 2px solid #625b5b;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #938787;
+      margin-bottom: 10px;
+    }
+
+    .student-info > span {
+      display: block;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 10px auto;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+    }
+
+    #canvas-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      background-color: #c6baba;
+      border: 2px solid #d3b9b9;
+      margin: 10px auto;
+      border-radius: 10px;
+    }
+
+    #graph {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    #point-form {
+      background-color: #d4c7c7;
+      border: 1px solid #f1bdbd;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .group-title {
+      display: block;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 18px;
+        border: 1px solid #625b5b;
+        border-radius: 10px;
+        outline: none;
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #fafafa;
+    }
+    input[type="text"]:focus  {
+        border-color: #537cb8;
+        background-color: #ffffff;
+    }
+
+    select {
+        padding: 8px;
+        font-size: 18px;
+        border: 1px solid #625b5b;
+        border-radius: 10px;
+        background-color: #fafafa;
+        width: 100%;
+    }
+
+    .error-message {
+      color: #e15555;
+      font-size: 18px;
+      margin-top: 8px;
+      padding: 8px;
+      display: none
+    }
+  
+
+    .buttons-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 8px 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Courier New', Courier, monospace;
+      transition: background-color 0.2s;
+    }
+    .x-btn {
+      background-color: #eff1f4;
+      color: #141313;
+    }
+    .x-btn:hover {
+      background-color: #f29f9f;
+    }
+    .x-btn:focus {
+      background-color: #585555;
+    }
+
+    .btn-submit {
+      background-color: #c08181;
+    }
+
+    .btn-submit:hover {
+      background-color: #ac8e8e;
+    }
+
+    .btn-clear {
+        background-color: #f5efef;
+        color: #6c80a3;
+    }
+
+    .btn-clear:hover {
+        background-color: #6c5d55;
+    }
+
+    .table-card {
+      background-color: #fff;
+      border: 1px solid #4a5568;
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    #results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 18px;
+      text-align: left;
+    }
+    #results-table th,
+    #results-table td {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ea7878;
+    }
+
+    #results-table th {
+      background-color: #ededed;
+      color: #4a5568;
+      font-weight: 600;
+    }
+
+    #results-table tbody tr:hover {
+      background-color: #edf2f7;
+    }
+
+    #results-table tbody tr:nth-child(even) {
+        background-color: #b7b9bb ;
+    }
+
+    .hit-false::after {
+      content: " ✗";
+      color: #c53030;
+      font-weight: bold;
+    }
+
+    .hit-true::after {
+      content: " ✓";
+      color: #5dde4e;
+      font-weight: bold;
+    }
+
+    .x-btn.selected {
+    background-color: #585555;
+    color: #ffffff;
+    }
+
+    #footer-info {
+      text-align: center;
+      font-size: 18px;
+      color: #797272;
+      padding: 15px;
+    }
+  </style>
+
+</head>
+<body>
+  <header id="main-header">
+    <h1>Лабораторная работа number one</h1>
+    <div class="student-info">
+    <span>ФИО: <strong>Карцев Даниил Денисович</strong></span>
+    <span>Группа: <strong>P3213</strong></span>
+    <span>Вариант: <strong>12701</strong></span>
+    </div>
+  </header>
+
+  <main>
+    <div id="canvas-container">
+      <canvas id="graph" width="400" height="400"></canvas>
+    </div>
+
+    <form id="point-form" novalidate>
+      <div class="form-group">
+        <label class="group-title" for="x-input">Координата X (-4...4):</label>
+        <button type="button" class="x-btn" data-value="-4">-4</button>
+        <button type="button" class="x-btn" data-value="-3">-3</button>
+        <button type="button" class="x-btn" data-value="-2">-2</button>
+        <button type="button" class="x-btn" data-value="-1">-1</button>
+        <button type="button" class="x-btn" data-value="0">0</button>
+        <button type="button" class="x-btn" data-value="1">1</button>
+        <button type="button" class="x-btn" data-value="2">2</button>
+        <button type="button" class="x-btn" data-value="3">3</button>
+        <button type="button" class="x-btn" data-value="4">4</button>
+      </div>
+      <div class="error-message" id="x-error">Выберите значение из доступных вариантов!</div>
+
+      <div class="form-group">
+        <label class="group-title">Координата Y (-5...5):</label>
+        <input type="text" id="y-input" name="y" placeholder="Например, 2">
+        <div class="error-message" id="y-error">Введите число от -5 до 5!</div>
+        
+      </div>
+
+      <div class="form-group">
+        <label class="group-title" for="r-input">Радиус R (2...5):</label>
+        <input type="text" id="r-input" name="r" placeholder="Например, 2">
+        <div class="error-message" id="r-error">Введите число в диапазоне от 2 до 5!</div>
+      </div>
+
+      <div class="buttons-group">
+        <button type="submit" class="btn-submit">Проверить</button>
+        <button type="button" class="btn-clear" id="clear-btn">Очистить историю</button>
+      </div>
+      
+    </form>
+
+    <div class="table-card">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>X</th>
+            <th>Y</th>
+            <th>R</th>
+            <th>Результат</th>
+            <th>Дата и время</th>
+            <th>Время работы (мс)</th>
+          </tr>
+        </thead>
+        <tbody id="results-body">
+        </tbody>
+      </table>
+    </div>
+  </main>
+  
+  <footer id="footer-info">
+    ИТМО, 2026
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
